@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Builder;
 using ReStoreAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddSwaggerGen();
 
 // Services
 builder.Services.AddMetaServices(builder.Configuration);
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -26,6 +28,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseAuthorization();
 
